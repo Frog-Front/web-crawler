@@ -1,5 +1,6 @@
 
 BASE URL http://example.com
+Parameters
 
 	DOMAIN
 		http://example.com/bar.html
@@ -9,6 +10,7 @@ BASE URL http://example.com
 		http://example.com/img/foo.jpg
 
 BASE URL http://example.com/foo.html
+Parameters
 
 	DOMAIN
 		http://example.com/bar.html
@@ -18,6 +20,7 @@ BASE URL http://example.com/foo.html
 		http://example.com/img/foo.jpg
 
 BASE URL http://example.com/bar.html
+Parameters
 
 	DOMAIN
 		http://example.com/bar.html

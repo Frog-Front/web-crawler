@@ -62,15 +62,13 @@ public class ReportingLocationProvider implements LocationProvider {
 
 		StringBuilder strBuilder = new StringBuilder();
 		strBuilder.append("\nBASE URL " + this.locationUrl + "\n");
-		if (this.parameters.isEmpty()) {
-			strBuilder.append("Parameters\n");
-			this.parameters.forEach((k, v) -> {
-				if (k != (LocationSource.ParameterNames.RAW)) {
-					strBuilder.append(k + "::" + v + "\n");
-				}
+		strBuilder.append("Parameters\n");
+		this.parameters.forEach((k, v) -> {
+			if (k != (LocationSource.ParameterNames.RAW)) {
+				strBuilder.append(k + "::" + v + "\n");
+			}
 
-			});
-		}
+		});
 		strBuilder.append("\n");
 		strBuilder.append(this.buildEmbedded(LocationType.DOMAIN)).append(this.buildEmbedded(LocationType.DOMAIN_IMAGE))
 				.append(this.buildEmbedded(LocationType.EXTERNAL))
