@@ -57,4 +57,5 @@ Currently using [TravcisCI](https://travis-ci.org/github/Frog-Front/web-crawler/
  - Include functionality to extract links based on `sitemaps`.
  - The HTML parsing is using [JSoup](https://jsoup.org/). Investigating a pure SAX implementation would be worth the effort to gain performance.
  - Include more `LocationProvider`s for other specifications. eg Sitemaps.
+ - Publish to bintray via Travis to complete a CD pipeline.
 
