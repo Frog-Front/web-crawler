@@ -1,19 +1,50 @@
 
 plugins {
   id 'java'
-  id 'application'
   id 'idea'
   id 'eclipse'
-  id 'checkstyle'
-  id 'pmd'
-  id 'findbugs'
   id 'maven'
   id 'maven-publish'
+  id "com.jfrog.bintray" version "1.8.4"
   }
+  
+processResources {
+  from('src/test/resources') { include '**/*.json' }
+}
+
+group = 'com.frogfront'
+version = '0.0.1'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
     mavenLocal()
     mavenCentral()
+    jcenter()
+}
+
+bintray {
+	user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_KEY')
+    publications = ['WebCrawlerPub']
+    pkg {
+        repo = 'com.frogfront'
+        name = 'web-crawler'
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/Frog-Front/web-crawler'
+    }
+}
+
+publishing {
+    publications {
+        WebCrawlerPub(MavenPublication) {
+            from components.java
+            groupId 'com.frogfront'
+            artifactId 'web-crawler'
+            version '0.0.1'
+        }
+    }
 }
 
 dependencies {
@@ -32,4 +63,6 @@ dependencies {
     	[group: 'org.powermock', name: 'powermock-core', version: '2.0.0'],
       )
 }
+
+defaultTasks 'clean', 'build'
 
