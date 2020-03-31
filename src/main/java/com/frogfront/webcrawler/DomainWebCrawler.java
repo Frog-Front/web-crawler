@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
+import org.jsoup.UnsupportedMimeTypeException;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
@@ -60,7 +61,13 @@ public class DomainWebCrawler implements WebCrawler {
 					urlIt = urls.iterator();
 					continue;
 				}
-				Connection.Response connectionResponse = Jsoup.connect(nextUrl).method(Connection.Method.GET).execute();
+				Connection.Response connectionResponse = null;
+				try {
+					connectionResponse = Jsoup.connect(nextUrl).method(Connection.Method.GET).execute();
+				} catch (UnsupportedMimeTypeException e) {
+					log.error("UnsupportedMimeTypeException on url " + nextUrl, e);
+					throw new IOException(e);
+				}
 				try {
 					String lastModified = connectionResponse.headers("Last-Modified").get(0);
 					urlParameters.put(LocationSource.ParameterNames.LAST_MODIFIED, lastModified);
@@ -73,7 +80,7 @@ public class DomainWebCrawler implements WebCrawler {
 				hrefs.forEach(e -> {
 					final String newUrl = e.absUrl("href");
 					Matcher matcher = pattern.matcher(newUrl);
-					if (newUrl.contains(url.getHost()) && !matcher.matches()) {
+					if (newUrl.startsWith(url.toString()) && !matcher.matches()) {
 						urls.add(this.normilizeUrl(newUrl));
 						embededURLs.put(newUrl, LocationType.DOMAIN);
 					} else if (matcher.matches()) {
