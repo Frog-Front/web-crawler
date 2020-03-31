@@ -1,0 +1,27 @@
+
+BASE URL http://example.com
+
+	DOMAIN
+		http://example.com/bar.html
+		http://example.com/
+		http://example.com/foo.html
+	DOMAIN_IMAGE
+		http://example.com/img/foo.jpg
+
+BASE URL http://example.com/foo.html
+
+	DOMAIN
+		http://example.com/bar.html
+		http://example.com/
+		http://example.com/foo.html
+	DOMAIN_IMAGE
+		http://example.com/img/foo.jpg
+
+BASE URL http://example.com/bar.html
+
+	DOMAIN
+		http://example.com/bar.html
+		http://example.com/
+		http://example.com/foo.html
+	DOMAIN_IMAGE
+		http://example.com/img/foo.jpg

@@ -1,0 +1,14 @@
+class crawlercommons.robots.SimpleRobotRules:
+ - no crawl delay
+ - no sitemap URLs
+ - number of rules: 10
+   Disallow: /thank-you-for-subscribing
+   Disallow: /images/20/
+   Disallow: /*/feed/rss
+   Disallow: /confirmed$
+   Disallow: /confirmed?
+   Disallow: /cgi-bin/
+   Disallow: /*/feed
+   Disallow: /dev/
+   Disallow: /tag/
+   Disallow: /v3/

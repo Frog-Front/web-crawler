@@ -1,0 +1,13 @@
+
+BASE URL http://example.com
+Parameters
+LAST_MODIFIED::foo
+
+	DOMAIN
+		http://example.com/foo
+	DOMAIN_IMAGE
+		http://example.com/foo.png
+	EXTERNAL
+		http://google.com/foo
+	EXTERNAL_IMAGE
+		http://google.com/foo.png

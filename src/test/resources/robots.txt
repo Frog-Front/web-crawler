@@ -1,0 +1,11 @@
+User-Agent: *
+Disallow: /cgi-bin/
+Disallow: /v3/
+Disallow: /dev/
+Disallow: /images/20/
+Disallow: /*/feed
+Disallow: /*/feed/rss
+Disallow: /tag/
+Disallow: /thank-you-for-subscribing
+Disallow: /confirmed$
+Disallow: /confirmed?
