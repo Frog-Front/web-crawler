@@ -28,7 +28,7 @@ bintray {
 	user = System.getenv('BINTRAY_USER')
     key = System.getenv('BINTRAY_KEY')
     publications = ['WebCrawlerPub']
-    override = false
+    override = true
     pkg {
         repo = 'com.frogfront'
         name = 'web-crawler'
