@@ -32,6 +32,7 @@ bintray {
     pkg {
         repo = 'com.frogfront'
         name = 'web-crawler'
+        userOrg = 'frog-front'
         licenses = ['Apache-2.0']
         vcsUrl = 'https://github.com/Frog-Front/web-crawler'
     }
