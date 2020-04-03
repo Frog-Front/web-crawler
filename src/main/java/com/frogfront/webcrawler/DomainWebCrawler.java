@@ -65,8 +65,9 @@ public class DomainWebCrawler implements WebCrawler {
 				try {
 					connectionResponse = Jsoup.connect(nextUrl).method(Connection.Method.GET).execute();
 				} catch (UnsupportedMimeTypeException e) {
-					log.error("UnsupportedMimeTypeException on url " + nextUrl, e);
-					throw new IOException(e);
+					urls.remove(nextUrl);
+					urlIt = urls.iterator();
+					continue;
 				}
 				try {
 					String lastModified = connectionResponse.headers("Last-Modified").get(0);
