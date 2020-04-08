@@ -1,6 +1,8 @@
 package com.frogfront.webcrawler;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -11,6 +13,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.jsoup.Connection;
+import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.UnsupportedMimeTypeException;
 import org.jsoup.nodes.Document;
@@ -64,11 +67,11 @@ public class DomainWebCrawler implements WebCrawler {
 				Connection.Response connectionResponse = null;
 				try {
 					connectionResponse = Jsoup.connect(nextUrl).method(Connection.Method.GET).execute();
-				} catch (UnsupportedMimeTypeException e) {
+				} catch (UnsupportedMimeTypeException | MalformedURLException | SocketTimeoutException | HttpStatusException e ) {
 					urls.remove(nextUrl);
 					urlIt = urls.iterator();
 					continue;
-				}
+				} 
 				try {
 					String lastModified = connectionResponse.headers("Last-Modified").get(0);
 					urlParameters.put(LocationSource.ParameterNames.LAST_MODIFIED, lastModified);
