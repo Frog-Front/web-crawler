@@ -33,6 +33,7 @@ public class ReportingLocationProvider implements LocationProvider {
 		@Override
 		public LocationSource useLocaton(String locUrl, String status) {
 			locationUrl = locUrl;
+			httpStatus = status;
 			return this;
 		}
 

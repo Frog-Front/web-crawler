@@ -38,5 +38,5 @@ public class ReportingLocationProviderTest {
 		assertThat(actual, equalTo(expected));
 		
 	}
-
+	
 }
