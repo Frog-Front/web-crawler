@@ -1,5 +1,7 @@
 
 BASE URL http://example.com
+
+HTTP STATUS null
 Parameters
 
 	DOMAIN
@@ -10,6 +12,8 @@ Parameters
 		http://example.com/img/foo.jpg
 
 BASE URL http://example.com/foo.html
+
+HTTP STATUS null
 Parameters
 
 	DOMAIN
@@ -20,6 +24,8 @@ Parameters
 		http://example.com/img/foo.jpg
 
 BASE URL http://example.com/bar.html
+
+HTTP STATUS null
 Parameters
 
 	DOMAIN
