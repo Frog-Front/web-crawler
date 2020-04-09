@@ -9,6 +9,8 @@ BASE URL http://example.com
 Parameters
 LAST_MODIFIED::
 
+HTTP STATUS 200
+
 	DOMAIN
 		http://example.com/foo
 	DOMAIN_IMAGE
