@@ -5,7 +5,7 @@ import java.util.Map;
 public interface LocationSource {
 
 	public static enum LocationType {
-		DOMAIN, EXTERNAL, DOMAIN_IMAGE, EXTERNAL_IMAGE, ERROR
+		DOMAIN, EXTERNAL, DOMAIN_IMAGE, EXTERNAL_IMAGE
 	};
 
 	public static enum ParameterNames {
