@@ -1,5 +1,7 @@
 
 BASE URL http://example.com
+
+HTTP STATUS null
 Parameters
 LAST_MODIFIED::foo
 

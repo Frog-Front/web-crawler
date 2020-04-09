@@ -5,14 +5,14 @@ import java.util.Map;
 public interface LocationSource {
 
 	public static enum LocationType {
-		DOMAIN, EXTERNAL, DOMAIN_IMAGE, EXTERNAL_IMAGE
+		DOMAIN, EXTERNAL, DOMAIN_IMAGE, EXTERNAL_IMAGE, ERROR
 	};
 
 	public static enum ParameterNames {
 		LAST_MODIFIED, RAW
 	}
 
-	public LocationSource useLocaton(String locationUrl);
+	public LocationSource useLocaton(String locationUrl, String Status);
 
 	public LocationSource useParameters(Map<ParameterNames, String> parameters);
 
