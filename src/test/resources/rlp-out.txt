@@ -1,5 +1,7 @@
 
 BASE URL http://example.com
+
+HTTP STATUS 200
 Parameters
 LAST_MODIFIED::foo
 

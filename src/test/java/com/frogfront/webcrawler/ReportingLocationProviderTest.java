@@ -30,7 +30,7 @@ public class ReportingLocationProviderTest {
 		locations.put("http://google.com/foo", LocationSource.LocationType.EXTERNAL);
 		locations.put("http://google.com/foo.png", LocationSource.LocationType.EXTERNAL_IMAGE);
 
-		rlp.newLocationSource().useParameters(params).useLocaton("http://example.com").useEmbededUrls(locations);
+		rlp.newLocationSource().useParameters(params).useLocaton("http://example.com","200").useEmbededUrls(locations);
 		rlp.execute();
 
 		String expected = IOUtils.toString(this.getClass().getResourceAsStream("/rlp-out.txt"));
@@ -38,5 +38,5 @@ public class ReportingLocationProviderTest {
 		assertThat(actual, equalTo(expected));
 		
 	}
-
+	
 }

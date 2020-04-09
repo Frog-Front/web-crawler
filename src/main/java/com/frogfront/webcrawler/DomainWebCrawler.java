@@ -65,18 +65,25 @@ public class DomainWebCrawler implements WebCrawler {
 					continue;
 				}
 				Connection.Response connectionResponse = null;
+				String statusCode = "";
 				try {
 					connectionResponse = Jsoup.connect(nextUrl).method(Connection.Method.GET).execute();
-				} catch (UnsupportedMimeTypeException | MalformedURLException | SocketTimeoutException | HttpStatusException e ) {
+					statusCode = String.valueOf(connectionResponse.statusCode());
+				} catch (UnsupportedMimeTypeException | MalformedURLException | SocketTimeoutException
+						| HttpStatusException e) {
 					urls.remove(nextUrl);
+					crawledUrls.add(nextUrl);
 					urlIt = urls.iterator();
+					if (e instanceof HttpStatusException) {
+						this.executeProvider(nextUrl, String.valueOf(((HttpStatusException) e).getStatusCode()), embededURLs, urlParameters);
+					}
 					continue;
-				} 
+				}
 				try {
 					String lastModified = connectionResponse.headers("Last-Modified").get(0);
 					urlParameters.put(LocationSource.ParameterNames.LAST_MODIFIED, lastModified);
 				} catch (IndexOutOfBoundsException e) {
-
+					// no header value
 				}
 				urlParameters.put(LocationSource.ParameterNames.RAW, connectionResponse.body());
 				final Document doc = connectionResponse.parse();
@@ -102,9 +109,7 @@ public class DomainWebCrawler implements WebCrawler {
 				crawledUrls.add(nextUrl);
 				urls.remove(nextUrl);
 				urlIt = urls.iterator();
-				this.locationProvider.newLocationSource().useLocaton(nextUrl).useEmbededUrls(embededURLs)
-						.useParameters(urlParameters);
-				this.locationProvider.execute();
+				this.executeProvider(nextUrl, statusCode, embededURLs, urlParameters);
 			}
 
 		} catch (IOException e) {
@@ -112,6 +117,13 @@ public class DomainWebCrawler implements WebCrawler {
 
 		}
 
+	}
+
+	protected void executeProvider(String location, String status, Map<String, LocationType> embededURLs,
+			Map<ParameterNames, String> urlParameters) {
+		this.locationProvider.newLocationSource().useLocaton(location, status).useEmbededUrls(embededURLs)
+				.useParameters(urlParameters);
+		this.locationProvider.execute();
 	}
 
 	private String normilizeUrl(String url) {

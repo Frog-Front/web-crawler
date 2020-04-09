@@ -18,6 +18,7 @@ import com.frogfront.webcrawler.api.LocationSource.ParameterNames;
 public class ReportingLocationProvider implements LocationProvider {
 
 	private String locationUrl;
+	private String httpStatus;
 	private Map<ParameterNames, String> parameters;
 	private Map<String, LocationType> embededURLs;
 
@@ -30,8 +31,9 @@ public class ReportingLocationProvider implements LocationProvider {
 	private LocationSource locationSource = new LocationSource() {
 
 		@Override
-		public LocationSource useLocaton(String locUrl) {
+		public LocationSource useLocaton(String locUrl, String status) {
 			locationUrl = locUrl;
+			httpStatus = status;
 			return this;
 		}
 
@@ -62,6 +64,7 @@ public class ReportingLocationProvider implements LocationProvider {
 
 		StringBuilder strBuilder = new StringBuilder();
 		strBuilder.append("\nBASE URL " + this.locationUrl + "\n");
+		strBuilder.append("\nHTTP STATUS " + this.httpStatus + "\n");
 		strBuilder.append("Parameters\n");
 		this.parameters.forEach((k, v) -> {
 			if (k != (LocationSource.ParameterNames.RAW)) {

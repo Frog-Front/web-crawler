@@ -12,7 +12,7 @@ public interface LocationSource {
 		LAST_MODIFIED, RAW
 	}
 
-	public LocationSource useLocaton(String locationUrl);
+	public LocationSource useLocaton(String locationUrl, String Status);
 
 	public LocationSource useParameters(Map<ParameterNames, String> parameters);
 
