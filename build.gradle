@@ -24,6 +24,15 @@ repositories {
     jcenter()
 }
 
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives sourcesJar
+}
+
 bintray {
 	user = System.getenv('BINTRAY_USER')
     key = System.getenv('BINTRAY_KEY')
