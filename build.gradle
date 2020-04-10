@@ -29,8 +29,34 @@ task sourcesJar(type: Jar, dependsOn: classes) {
     from sourceSets.main.allSource
 }
 
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
 artifacts {
     archives sourcesJar
+    archives javadocJar
+}
+
+def pomConfig = {
+    licenses {
+        license {
+            name "The Apache Software License, Version 2.0"
+            url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+        }
+    }
+    developers {
+        developer {
+            id "cuzz22000"
+            name "chris wilson"
+            email "info@frogfront.com"
+        }
+    }
+    
+    scm {
+       url website
+    }
 }
 
 bintray {
@@ -43,7 +69,7 @@ bintray {
         name = 'web-crawler'
         userOrg = 'frog-front'
         licenses = ['Apache-2.0']
-        vcsUrl = 'https://github.com/Frog-Front/web-crawler'
+        vcsUrl = website
     }
 }
 
@@ -51,9 +77,18 @@ publishing {
     publications {
         WebCrawlerPub(MavenPublication) {
             from components.java
+            artifact sourcesJar
+            artifact javadocJar
             groupId 'com.frogfront'
             artifactId 'web-crawler'
             version applicationVersion
+            pom.withXml {
+                def root = asNode()
+                root.appendNode('description', 'Web Crawler Library (Domain BOT)')
+                root.appendNode('name', 'chris wilson')
+                root.appendNode('url', website)
+                root.children().last() + pomConfig
+            }
         }
     }
 }
