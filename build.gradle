@@ -75,8 +75,10 @@ bintray {
     }
 }
 
-signing {
-    sign configurations.archives
+if (new File(project.getProperty('signing.secretKeyRingFile')).exists()) {
+	signing {
+	    sign configurations.archives
+	}
 }
 
 publishing {
