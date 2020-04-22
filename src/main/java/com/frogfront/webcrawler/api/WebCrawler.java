@@ -4,9 +4,9 @@ import java.net.URL;
 
 public interface WebCrawler {
 	
-	public void useRobotstxt(RobotsTxt robotsTxt);
+	public WebCrawler useRobotstxt(RobotsTxt robotsTxt);
 	
-	public void useLocationProvider(LocationProvider locationProvider);
+	public WebCrawler useLocationProvider(LocationProvider locationProvider);
 	
 	public void crawlUrl(URL url);
 }

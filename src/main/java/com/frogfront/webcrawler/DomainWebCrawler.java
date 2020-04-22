@@ -34,13 +34,15 @@ public class DomainWebCrawler implements WebCrawler {
 	private RobotsTxt robotsTxt;
 
 	@Override
-	public void useRobotstxt(RobotsTxt robotsTxt) {
+	public WebCrawler useRobotstxt(RobotsTxt robotsTxt) {
 		this.robotsTxt = robotsTxt;
+		return this;
 	}
 
 	@Override
-	public void useLocationProvider(LocationProvider locationProvider) {
+	public WebCrawler useLocationProvider(LocationProvider locationProvider) {
 		this.locationProvider = locationProvider;
+		return this;
 	}
 
 	@Override
