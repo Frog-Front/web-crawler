@@ -65,13 +65,11 @@ public class WebCrawlerTest {
 
 		ByteArrayOutputStream actualOs = new ByteArrayOutputStream();
 		ReportingLocationProvider locationProvider = new ReportingLocationProvider(actualOs);
-		WebCrawler webCrawler = new DomainWebCrawler();
 
 		InputStream robotsStream = this.getClass().getResourceAsStream("/robots.txt");
 		RobotsTxtParser robotsParser = new RobotsTxtParser(new URL("http://example.com"), robotsStream);
 
-		webCrawler.useRobotstxt(robotsParser);
-		webCrawler.useLocationProvider(locationProvider);
+		WebCrawler webCrawler = new DomainWebCrawler().useRobotstxt(robotsParser).useLocationProvider(locationProvider);
 		webCrawler.crawlUrl(new URL("http://example.com"));
 
 		String expected = IOUtils.toString(this.getClass().getResourceAsStream("/crawler-out.txt"));
@@ -87,18 +85,16 @@ public class WebCrawlerTest {
 
 		Connection connection1 = Mockito.mock(Connection.class);
 		Connection.Response response1 = Mockito.mock(Connection.Response.class);
-		
+
 		PowerMockito.mockStatic(Jsoup.class);
 
 		Mockito.when(Jsoup.connect("http://example.com")).thenReturn(connection1);
 		Mockito.when(connection1.method(Connection.Method.GET)).thenReturn(connection1);
 		Mockito.when(connection1.execute()).thenReturn(response1);
 		Mockito.when(response1.parse()).thenReturn(doc1);
-		
-		WebCrawler webCrawler = new DomainWebCrawler();
-		
+
 		LocationProviderStub locationProvider = new LocationProviderStub();
-		webCrawler.useLocationProvider(locationProvider);
+		WebCrawler webCrawler = new DomainWebCrawler().useLocationProvider(locationProvider);
 		webCrawler.crawlUrl(new URL("http://example.com/"));
 		String expected = "http://example.com";
 		String actual = locationProvider.location;
@@ -142,13 +138,11 @@ public class WebCrawlerTest {
 
 		ByteArrayOutputStream actualOs = new ByteArrayOutputStream();
 		ReportingLocationProvider locationProvider = new ReportingLocationProvider(actualOs);
-		WebCrawler webCrawler = new DomainWebCrawler();
 		InputStream robotsStream = this.getClass().getResourceAsStream("/robots-disallow.txt");
 		RobotsTxtParser robotsParser = new RobotsTxtParser(new URL("http://example.com"), robotsStream);
 
-		webCrawler.useRobotstxt(robotsParser);
-		webCrawler.useLocationProvider(locationProvider);
-		webCrawler.crawlUrl(new URL("http://example.com/"));
+		WebCrawler webCrawler = new DomainWebCrawler().useRobotstxt(robotsParser).useLocationProvider(locationProvider);
+		webCrawler.crawlUrl(new URL("http://example.com"));
 
 		String expected = "";
 		String actual = new String(actualOs.toByteArray());
@@ -197,13 +191,11 @@ public class WebCrawlerTest {
 
 		ByteArrayOutputStream actualOs = new ByteArrayOutputStream();
 		ReportingLocationProvider locationProvider = new ReportingLocationProvider(actualOs);
-		WebCrawler webCrawler = new DomainWebCrawler();
 
 		InputStream robotsStream = this.getClass().getResourceAsStream("/robots.txt");
 		RobotsTxtParser robotsParser = new RobotsTxtParser(new URL("http://example.com"), robotsStream);
 
-		webCrawler.useRobotstxt(robotsParser);
-		webCrawler.useLocationProvider(locationProvider);
+		WebCrawler webCrawler = new DomainWebCrawler().useRobotstxt(robotsParser).useLocationProvider(locationProvider);
 		webCrawler.crawlUrl(new URL("http://example.com"));
 
 		String expected = IOUtils.toString(this.getClass().getResourceAsStream("/unsupported-out.txt"));
@@ -226,9 +218,8 @@ public class WebCrawlerTest {
 		Mockito.when(connection1.execute()).thenThrow(statusException);
 		Mockito.when(statusException.getStatusCode()).thenReturn(404);
 
-		WebCrawler webCrawler = new DomainWebCrawler();
 		LocationProviderStub locationProvider = new LocationProviderStub();
-		webCrawler.useLocationProvider(locationProvider);
+		WebCrawler webCrawler = new DomainWebCrawler().useLocationProvider(locationProvider);
 		webCrawler.crawlUrl(new URL("http://example.com"));
 
 		assertEquals(Integer.parseInt(locationProvider.httpStatus), 404);

@@ -5,6 +5,7 @@ plugins {
   id 'eclipse'
   id 'maven'
   id 'maven-publish'
+  id 'signing'
   id "com.jfrog.bintray" version "1.8.4"
   }
   
@@ -35,6 +36,7 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 }
 
 artifacts {
+	archives jar
     archives sourcesJar
     archives javadocJar
 }
@@ -49,13 +51,13 @@ def pomConfig = {
     developers {
         developer {
             id "cuzz22000"
-            name "chris wilson"
+            name "chris w"
             email "info@frogfront.com"
         }
     }
     
     scm {
-       url website
+       url scmWebsite
     }
 }
 
@@ -69,8 +71,14 @@ bintray {
         name = 'web-crawler'
         userOrg = 'frog-front'
         licenses = ['Apache-2.0']
-        vcsUrl = website
+        vcsUrl = scmWebsite
     }
+}
+
+if (new File(project.getProperty('signing.secretKeyRingFile')).exists()) {
+	signing {
+	    sign configurations.archives
+	}
 }
 
 publishing {
@@ -85,13 +93,44 @@ publishing {
             pom.withXml {
                 def root = asNode()
                 root.appendNode('description', 'Web Crawler Library (Domain BOT)')
-                root.appendNode('name', 'chris wilson')
-                root.appendNode('url', website)
+                root.appendNode('name', 'cuzz22000')
+                root.appendNode('url', scmWebsite)
                 root.children().last() + pomConfig
+                
+                def pomFile = file("${project.buildDir}/generated-pom.xml")
+                writeTo(pomFile)
+                def pomAscFile = signing.sign(pomFile).signatureFiles[0]
+                artifact(pomAscFile) {
+                    classifier = null
+                    extension = 'pom.asc'
+                }
+
+            	// create the signed artifacts
+	            project.tasks.signArchives.signatureFiles.each {
+	                artifact(it) {
+	                    def matcher = it.file =~ /-(sources|javadoc)\.jar\.asc$/
+	                    if (matcher.find()) {
+	                        classifier = matcher.group(1)
+	                    } else {
+	                        classifier = null
+	                    }
+	                    extension = 'jar.asc'
+	                }
+	            }
             }
         }
     }
+    repositories {
+        maven {
+            url "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+            credentials {
+                username System.getenv('SONATYPE_USER')
+                password System.getenv('SONATYPE_PWD')
+            }
+    	}
+    }
 }
+
 
 dependencies {
     compile(

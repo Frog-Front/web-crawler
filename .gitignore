@@ -113,3 +113,5 @@ local.properties
 # TeXlipse plugin
 .texlipse
 
+*.gpg
+
