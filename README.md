@@ -1,6 +1,6 @@
 ## Web Crawler
 
-![alt travis](https://travis-ci.org/Frog-Front/web-crawler.svg?branch=master)
+![alt travis](https://travis-ci.org/Frog-Front/web-crawler.svg?branch=master) [![Maven Central](https://img.shields.io/maven-central/v/com.frogfront/web-crawler.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.frogfront%22%20AND%20a:%22web-crawler%22)
 
 Web Crawler is a recursive link extractor which crawls a domains website in its entirety respecting rules implemented in `robots.txt`. The implementing contains a simple reporting generator writing to an output stream of your choice in the following format for each page within the domain.
 
