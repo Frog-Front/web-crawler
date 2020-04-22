@@ -157,5 +157,5 @@ dependencies {
       )
 }
 
-defaultTasks 'clean', 'build'
+defaultTasks 'clean', 'build', 'writeNewPom'
 
