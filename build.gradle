@@ -131,6 +131,14 @@ publishing {
     }
 }
 
+task writeNewPom {
+    doLast {
+        pom {
+           
+        }.writeTo("pom.xml")
+    }
+}
+
 
 dependencies {
     compile(
