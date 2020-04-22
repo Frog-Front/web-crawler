@@ -12,13 +12,13 @@ cache:
   directories:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
+
+before_script:
+  - openssl aes-256-cbc -K $encrypted_6afd0fc9428e_key -iv $encrypted_6afd0fc9428e_iv -in .travis/secring.gpg.enc -out secring.gpg -d
   
 script: 
   - ./gradlew
 
-before_deploy:
-  - openssl aes-256-cbc -K $encrypted_6afd0fc9428e_key -iv $encrypted_6afd0fc9428e_iv -in .travis/secring.gpg.enc -out secring.gpg -d
-  
 deploy:
   provider: script 
   script: bash .travis/deploy.sh
