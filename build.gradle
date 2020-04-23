@@ -3,7 +3,6 @@ plugins {
   id 'java'
   id 'idea'
   id 'eclipse'
-  id 'maven'
   id 'maven-publish'
   id 'signing'
   id "com.jfrog.bintray" version "1.8.4"
@@ -41,26 +40,6 @@ artifacts {
     archives javadocJar
 }
 
-def pomConfig = {
-    licenses {
-        license {
-            name "The Apache Software License, Version 2.0"
-            url "http://www.apache.org/licenses/LICENSE-2.0.txt"
-        }
-    }
-    developers {
-        developer {
-            id "cuzz22000"
-            name "chris w"
-            email "info@frogfront.com"
-        }
-    }
-    
-    scm {
-       url scmWebsite
-    }
-}
-
 bintray {
 	user = System.getenv('BINTRAY_USER')
     key = System.getenv('BINTRAY_KEY')
@@ -75,49 +54,41 @@ bintray {
     }
 }
 
-if (new File(project.getProperty('signing.secretKeyRingFile')).exists()) {
-	signing {
-	    sign configurations.archives
-	}
-}
-
 publishing {
     publications {
         WebCrawlerPub(MavenPublication) {
             from components.java
             artifact sourcesJar
             artifact javadocJar
-            groupId 'com.frogfront'
-            artifactId 'web-crawler'
             version applicationVersion
-            pom.withXml {
-                def root = asNode()
-                root.appendNode('description', 'Web Crawler Library (Domain BOT)')
-                root.appendNode('name', 'cuzz22000')
-                root.appendNode('url', scmWebsite)
-                root.children().last() + pomConfig
-                
-                def pomFile = file("${project.buildDir}/generated-pom.xml")
-                writeTo(pomFile)
-                def pomAscFile = signing.sign(pomFile).signatureFiles[0]
-                artifact(pomAscFile) {
-                    classifier = null
-                    extension = 'pom.asc'
-                }
-
-            	// create the signed artifacts
-	            project.tasks.signArchives.signatureFiles.each {
-	                artifact(it) {
-	                    def matcher = it.file =~ /-(sources|javadoc)\.jar\.asc$/
-	                    if (matcher.find()) {
-	                        classifier = matcher.group(1)
-	                    } else {
-	                        classifier = null
-	                    }
-	                    extension = 'jar.asc'
-	                }
-	            }
+			pom {
+        		description = "Web Crawler Library (Domain BOT)"
+				name = "Frog Front"
+				url = website
+				
+			    licenses {
+			        license {
+			            name = "The Apache Software License, Version 2.0"
+			            url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+			        }
+			    }
+			    developers {
+			        developer {
+			            id = "cuzz22000"
+			            name = "chris w"
+			            email = "info@frogfront.com"
+			        }
+			    }
+			    issueManagement {
+			    	system = "GitHub"
+			    	url = scmWebsite + "/issues"
+			    }
+			    scm {
+			       url = scmWebsite
+			       tag = "head"
+	    		}
             }
+            
         }
     }
     repositories {
@@ -131,12 +102,17 @@ publishing {
     }
 }
 
-task writeNewPom {
-    doLast {
-        pom {
-           
-        }.writeTo("pom.xml")
-    }
+if (new File(project.getProperty('signing.secretKeyRingFile')).exists()) {
+	signing {
+	    sign publishing.publications.WebCrawlerPub
+	}
+}
+
+
+task copyPom(type: Copy) {
+    from file("$buildDir/publications/WebCrawlerPub/pom-default.xml")
+    into file("$projectDir")
+    rename '(.+)-default(.+)', '$1$2'
 }
 
 
@@ -157,5 +133,5 @@ dependencies {
       )
 }
 
-defaultTasks 'clean', 'build', 'writeNewPom'
+defaultTasks 'clean', 'build', 'publishToMavenLocal', 'copyPom'
 
