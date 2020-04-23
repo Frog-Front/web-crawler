@@ -63,7 +63,7 @@ publishing {
             version applicationVersion
 			pom {
         		description = "Web Crawler Library (Domain BOT)"
-				name = "Frog Front"
+				name = "Frog Front - Web Crawler"
 				url = website
 				
 			    licenses {
@@ -117,20 +117,18 @@ task copyPom(type: Copy) {
 
 
 dependencies {
-    compile(
-    	[group: 'com.google.guava', name: 'guava', version: '24.0-jre'],
-    	[group: 'com.github.crawler-commons', name: 'crawler-commons', version: '1.0'],
-    	[group: 'org.jsoup', name: 'jsoup', version: jsoupVersion]
-    	)
 
-    testCompile(
-    	[group: 'junit', name: 'junit', version: '4.12'],
-    	[group: 'ch.qos.logback', name: 'logback-classic', version: '1.0.13'],
-    	[group: 'org.mockito', name: 'mockito-core', version: '2.15.0'],
-    	[group: 'org.powermock', name: 'powermock-module-junit4', version: '2.0.0'],
-    	[group: 'org.powermock', name: 'powermock-api-mockito2', version: '2.0.0'],
-    	[group: 'org.powermock', name: 'powermock-core', version: '2.0.0'],
-      )
+	implementation 'com.google.guava:guava:24.0-jre'
+	implementation 'com.github.crawler-commons:crawler-commons:1.0'
+	implementation 'org.jsoup:jsoup:'+jsoupVersion
+
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'ch.qos.logback:logback-classic:1.0.13'
+    testImplementation 'org.mockito:mockito-core:2.15.0'
+    testImplementation 'org.powermock:powermock-module-junit4:2.0.0'
+    testImplementation 'org.powermock:powermock-api-mockito2:2.0.0'
+    testImplementation 'org.powermock:powermock-core:2.0.0'
+     
 }
 
 defaultTasks 'clean', 'build', 'publishToMavenLocal', 'copyPom'
